@@ -21,3 +21,8 @@ def apply_sentiment_analysis(df, text_column="review_text"):
     df["textblob_label"] = df["textblob_score"].apply(lambda x: "positive" if x > 0.1 else "negative" if x < -0.1 else "neutral")
 
     return df
+def aggregate_sentiment_by_bank_and_rating(df):
+    agg_df = df.groupby(["app_name", "rating"])[
+        ["bert_score", "vader_score", "textblob_score"]
+    ].mean().reset_index()
+    return agg_df
